@@ -1,4 +1,3 @@
-import useTasks from "@/hooks/useTasks";
 import { Task } from "@/types/Task";
 
 type TaskListProps = {
