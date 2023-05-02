@@ -41,7 +41,7 @@ export default function TaskCard({
         )}
       </div>
 
-      <div className={styles.taskHeader}>
+      <div className={styles.taskHeader} onClick={() => console.log("Clicked")}>
         <span>{task.finished ? <s>{task.title}</s> : task.title}</span>
       </div>
     </div>
