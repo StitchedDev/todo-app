@@ -1,26 +1,48 @@
 import useTasks from "@/hooks/useTasks";
-import { Task } from "@/types/Task";
-import { useState } from "react";
 import TaskList from "./List";
+import styles from "@/styles/TaskCard.module.css";
+import Image from "next/image";
+import addButton from "public/add-button.svg";
+import AddButton from "../AddButton";
+import { Task } from "@/types/Task";
+import { useRef } from "react";
 
 export default function TaskView() {
   const {
     tasks,
-    createTask,
-    clearTasks,
-    setNewTaskName,
-    newTaskName,
     editTask,
     toggleEditMode,
     deleteTask,
     markTaskComplete,
+    markSelectedComplete,
   } = useTasks();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const inputFocus = () => {
+    inputRef.current?.focus();
+  };
+
+  const getRemainingTasks = () => {
+    if (tasks.length === 0) return "0";
+    return tasks.length.toString();
+  };
+
+  const shouldMarkComplete = () => {
+    const foundSelected = tasks.filter((task: Task) => task.selected);
+
+    if (foundSelected.length > 0) return true;
+    return false;
+  };
 
   return (
     <div>
-      <h1>Tasks</h1>
+      <h1 className={styles.remainingTaskHeader}>
+        Remaining Tasks <strong>({getRemainingTasks()})</strong>
+      </h1>
 
       <TaskList
+        inputRef={inputRef}
+        inputFocus={inputFocus}
         tasks={tasks}
         editTask={editTask}
         toggleEditMode={toggleEditMode}
@@ -28,17 +50,17 @@ export default function TaskView() {
         markTaskComplete={markTaskComplete}
       />
 
-      <div>
-        <input
-          type="text"
-          placeholder="Task Name"
-          onChange={(e: any) => setNewTaskName(e.target.value)}
-          value={newTaskName}
-        />
-        <button onClick={() => createTask(newTaskName)}>Create New Task</button>
+      <div className={styles.newTaskContainer}>
+        {shouldMarkComplete() ? (
+          <button
+            className={styles.markCompleteBtn}
+            onClick={() => markSelectedComplete()}
+          >
+            Mark Complete
+          </button>
+        ) : null}
+        <AddButton style={{ cursor: "pointer" }} onClick={() => inputFocus()} />
       </div>
-
-      <button onClick={() => clearTasks()}>Clear All</button>
     </div>
   );
 }
