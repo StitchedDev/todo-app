@@ -1,0 +1,78 @@
+.remainingTaskHeader {
+  font-size: 1.5rem;
+  margin: 1rem 0.5rem;
+  color: gray;
+}
+
+.remainingTaskHeader strong {
+  color: black;
+}
+
+.taskCard {
+  background: white;
+  margin: 0.5rem 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.taskCard input {
+  margin-left: 1.2rem;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: "Lato", sans-erif;
+}
+
+.taskCard:hover,
+.taskCard input:hover {
+  background: #f5f5f5;
+}
+
+.taskHeader {
+  padding: 0.5rem 0;
+  margin: 0.1rem 0;
+}
+
+.newTaskContainer,
+.clearTaskContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1.6rem;
+}
+
+.newTaskContainer input {
+  margin-right: 1rem;
+}
+
+.clearTaskContainer {
+  margin-top: 1rem;
+}
+
+.checkmark {
+  fill: darkgray;
+  margin-right: 1.2rem;
+}
+
+.checkmark:hover {
+  fill: green;
+}
+
+.checkmarkSelected {
+  fill: green;
+}
+
+.markCompleteBtn {
+  background: #12d457;
+  border: none;
+  outline: none;
+  padding: 0 1rem;
+  margin: 0 auto;
+  border-radius: 0.4rem;
+  color: rgb(255, 255, 255);
+  font-family: "Lato", sans-erif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  width: 80%;
+}
