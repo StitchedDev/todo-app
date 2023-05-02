@@ -3,4 +3,6 @@ export interface Task {
   title: string;
   finished: boolean;
   editing: boolean;
+  selected: boolean;
+  date: string;
 }

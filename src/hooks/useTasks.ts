@@ -32,6 +32,8 @@ export default function useTasks() {
           title: taskName,
           finished: false,
           editing: false,
+          date: "05/02/2023",
+          selected: false,
         },
       ];
 
@@ -60,6 +62,7 @@ export default function useTasks() {
         return {
           ...prevTask,
           editing: !prevTask.editing,
+          selected: !prevTask.selected,
         };
       });
 
@@ -73,6 +76,23 @@ export default function useTasks() {
     setTasks((prevTasks: Task[]) => {
       const newTasks: Task[] = prevTasks.map((prevTask: Task) => {
         if (prevTask.id !== task.id) return prevTask;
+        return {
+          ...prevTask,
+          finished: true,
+        };
+      });
+
+      localStorage.setItem("tasks", JSON.stringify(newTasks));
+
+      return newTasks;
+    });
+  };
+
+  const markSelectedComplete = () => {
+    setTasks((prevTasks: Task[]) => {
+      const newTasks: Task[] = prevTasks.map((prevTask: Task) => {
+        if (!prevTask.selected) return prevTask;
+
         return {
           ...prevTask,
           finished: true,
@@ -111,5 +131,6 @@ export default function useTasks() {
     clearTasks,
     newTaskName,
     setNewTaskName,
+    markSelectedComplete,
   };
 }
