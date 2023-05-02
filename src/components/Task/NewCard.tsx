@@ -5,34 +5,53 @@ import { useState, Ref } from "react";
 type TaskNewCardProps = {
   inputFocus: Function;
   inputRef: Ref<HTMLInputElement>;
+  createTask: Function;
 };
 
 export default function TaskNewCard(props: TaskNewCardProps) {
   const [selected, setSelected] = useState<boolean>(false);
+  const [taskName, setTaskName] = useState<string>("");
+
+  const handleAddButton = () => {
+    props.createTask(taskName);
+    setTaskName("");
+    setSelected(false);
+  };
 
   return (
-    <div className={styles.taskCard} onClick={() => props.inputFocus()}>
-      <div>
-        {selected ? (
-          <FaCheckCircle
-            className={`${styles.checkmark} ${styles.checkmarkSelected}`}
+    <div className={`${styles.newTaskCardContainer}`}>
+      <div
+        className={`${styles.taskCard} ${styles.newTaskCard}`}
+        onClick={() => props.inputFocus()}
+      >
+        <div>
+          {selected ? (
+            <FaCheckCircle
+              className={`${styles.checkmark} ${styles.checkmarkSelected}`}
+            />
+          ) : (
+            <FaPlusCircle
+              className={styles.checkmark}
+              onClick={() => setSelected(!selected)}
+            />
+          )}
+        </div>
+
+        <div className={`${styles.taskHeader} ${styles.newTaskHeader}`}>
+          <input
+            value={taskName}
+            onChange={(e: any) => setTaskName(e.target.value)}
+            placeholder="Add a task"
+            onFocus={() => setSelected(true)}
+            ref={props.inputRef}
           />
-        ) : (
-          <FaPlusCircle
-            className={styles.checkmark}
-            onClick={() => setSelected(!selected)}
-          />
-        )}
+        </div>
       </div>
 
-      <div className={styles.taskHeader}>
-        <input
-          value={""}
-          onChange={(e: any) => console.log("A")}
-          placeholder="Add a task"
-          onFocus={() => setSelected(true)}
-          ref={props.inputRef}
-        />
+      <div
+        className={`${selected ? styles.newTaskMenu : styles.hiddenTaskMenu}`}
+      >
+        <button onClick={() => handleAddButton()}>Add</button>
       </div>
     </div>
   );

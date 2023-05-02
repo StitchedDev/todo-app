@@ -6,6 +6,7 @@ import { Ref } from "react";
 type TaskListProps = {
   tasks: Task[];
   editTask: Function;
+  createTask: Function;
   toggleEditMode: Function;
   deleteTask: Function;
   markTaskComplete: Function;
@@ -15,7 +16,11 @@ type TaskListProps = {
 export default function TaskList(props: TaskListProps) {
   return (
     <>
-      <TaskNewCard inputRef={props.inputRef} inputFocus={props.inputFocus} />
+      <TaskNewCard
+        inputRef={props.inputRef}
+        inputFocus={props.inputFocus}
+        createTask={props.createTask}
+      />
       {props.tasks.map((task: Task) => {
         return <TaskCard key={task.id} task={task} {...props} />;
       })}

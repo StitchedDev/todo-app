@@ -13,6 +13,7 @@ export default function TaskView() {
     deleteTask,
     markTaskComplete,
     markSelectedComplete,
+    createTask,
   } = useTasks();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -39,6 +40,7 @@ export default function TaskView() {
       </h1>
 
       <TaskList
+        createTask={createTask}
         inputRef={inputRef}
         inputFocus={inputFocus}
         tasks={tasks}
