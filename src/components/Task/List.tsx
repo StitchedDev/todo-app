@@ -17,7 +17,7 @@ export default function TaskList(props: TaskListProps) {
     <>
       <TaskNewCard inputRef={props.inputRef} inputFocus={props.inputFocus} />
       {props.tasks.map((task: Task) => {
-        return <TaskCard task={task} {...props} />;
+        return <TaskCard key={task.id} task={task} {...props} />;
       })}
     </>
   );
