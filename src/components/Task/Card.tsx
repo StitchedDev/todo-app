@@ -19,16 +19,17 @@ export default function TaskCard({
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
   const handleHover = () => {
-    setIsHovering(!isHovering);
+    setIsHovering((prevHovering: boolean) => !prevHovering);
   };
 
   return (
-    <div key={task.id} className={styles.taskCard}>
-      <div
-        onClick={() => toggleEditMode(task)}
-        onMouseEnter={() => handleHover()}
-        onMouseLeave={() => handleHover()}
-      >
+    <div
+      key={task.id}
+      className={styles.taskCard}
+      onMouseEnter={() => handleHover()}
+      onMouseLeave={() => handleHover()}
+    >
+      <div onClick={() => toggleEditMode(task)}>
         {task.selected ? (
           <FaCheckCircle
             className={`${styles.checkmark} ${styles.checkmarkSelected}`}
@@ -41,7 +42,7 @@ export default function TaskCard({
       </div>
 
       <div className={styles.taskHeader}>
-        <input value={task.title} onChange={(e: any) => editTask(e, task)} />
+        <span>{task.finished ? <s>{task.title}</s> : task.title}</span>
       </div>
     </div>
   );

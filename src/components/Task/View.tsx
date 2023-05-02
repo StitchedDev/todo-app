@@ -23,7 +23,8 @@ export default function TaskView() {
 
   const getRemainingTasks = () => {
     if (tasks.length === 0) return "0";
-    return tasks.length.toString();
+    const remainingTasks = tasks.filter((task: Task) => !task.finished);
+    return remainingTasks.length;
   };
 
   const shouldMarkComplete = () => {

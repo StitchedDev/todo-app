@@ -12,7 +12,7 @@ export default function useTasks() {
 
       setTasks(storedTasks);
     } catch (e: any) {
-      console.log("An error has occurred.\n" + e.message);
+      localStorage.setItem("tasks", JSON.stringify([]));
     }
   }, []);
 
