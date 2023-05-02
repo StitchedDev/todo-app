@@ -1,8 +1,6 @@
 import useTasks from "@/hooks/useTasks";
 import TaskList from "./List";
 import styles from "@/styles/TaskCard.module.css";
-import Image from "next/image";
-import addButton from "public/add-button.svg";
 import AddButton from "../AddButton";
 import { Task } from "@/types/Task";
 import { useRef } from "react";
