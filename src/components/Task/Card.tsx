@@ -1,25 +1,17 @@
 import { Task } from "@/types/Task";
 import styles from "@/styles/TaskCard.module.css";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { TaskContext } from "@/hooks/useTasks";
 
 type TaskCardProps = {
   task: Task;
-  editTask: Function;
-  toggleEditMode: Function;
-  deleteTask: Function;
-  markTaskComplete: Function;
   handleTaskDetails: Function;
 };
 
-export default function TaskCard({
-  task,
-  editTask,
-  toggleEditMode,
-  handleTaskDetails,
-}: TaskCardProps) {
+export default function TaskCard({ task, handleTaskDetails }: TaskCardProps) {
   const [isHovering, setIsHovering] = useState<boolean>(false);
-
+  const { toggleEditMode } = useContext(TaskContext);
   const handleHover = () => {
     setIsHovering((prevHovering: boolean) => !prevHovering);
   };

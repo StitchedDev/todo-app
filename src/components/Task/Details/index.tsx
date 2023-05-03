@@ -1,9 +1,9 @@
 import styles from "@/styles/TaskDetails.module.css";
 import { Task } from "@/types/Task";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import DueDate from "./DueDate";
 import { FaCalendarAlt } from "react-icons/fa";
-import useTasks from "@/hooks/useTasks";
+import { TaskContext } from "@/hooks/useTasks";
 import TaskDetailsControls from "./Controls";
 
 type TaskDetailsProps = {
@@ -22,7 +22,7 @@ export default function TaskDetails(props: TaskDetailsProps) {
     setNewTaskName,
     setTasks,
     newTaskName,
-  } = useTasks();
+  } = useContext(TaskContext);
 
   useEffect(() => {
     tasks.forEach((currentTask: Task) => {

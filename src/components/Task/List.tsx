@@ -1,15 +1,10 @@
 import { Task } from "@/types/Task";
 import TaskCard from "./Card";
 import TaskNewCard from "./NewCard";
-import { Ref } from "react";
+import { Ref, useContext } from "react";
+import { TaskContext } from "@/hooks/useTasks";
 
 type TaskListProps = {
-  tasks: Task[];
-  editTask: Function;
-  createTask: Function;
-  toggleEditMode: Function;
-  deleteTask: Function;
-  markTaskComplete: Function;
   inputRef: Ref<HTMLInputElement>;
   inputFocus: Function;
   handleTaskDetails: Function;
@@ -17,14 +12,16 @@ type TaskListProps = {
 };
 
 export default function TaskList(props: TaskListProps) {
+  const { createTask, tasks } = useContext(TaskContext);
+
   return (
     <>
       <TaskNewCard
         inputRef={props.inputRef}
         inputFocus={props.inputFocus}
-        createTask={props.createTask}
+        createTask={createTask}
       />
-      {props.tasks.map((task: Task) => {
+      {tasks.map((task: Task) => {
         return <TaskCard key={task.id} task={task} {...props} />;
       })}
     </>

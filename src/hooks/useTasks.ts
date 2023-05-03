@@ -1,7 +1,26 @@
 import { Task } from "@/types/Task";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 
-export default function useTasks() {
+type TaskContextProps = {
+  tasks: Task[];
+  createTask: Function;
+  editTask: Function;
+  toggleEditMode: Function;
+  markTaskComplete: Function;
+  deleteTask: Function;
+  clearTasks: Function;
+  newTaskName: string;
+  setNewTaskName: Function;
+  markSelectedComplete: Function;
+  changeDueDate: Function;
+  setTasks: Function;
+};
+
+export const TaskContext = createContext<TaskContextProps>(
+  {} as TaskContextProps
+);
+
+export default function useTasks(): TaskContextProps {
   const [tasks, setTasks] = useState<Task[]>([] as Task[]);
   const [newTaskName, setNewTaskName] = useState<string>("");
 
