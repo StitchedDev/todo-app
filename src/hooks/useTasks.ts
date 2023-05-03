@@ -14,6 +14,11 @@ type TaskContextProps = {
   markSelectedComplete: Function;
   changeDueDate: Function;
   setTasks: Function;
+  activeTask: Task;
+  setActiveTask: Function;
+  saveTempTask: Function;
+  setTempTask: Function;
+  tempTask: Task;
 };
 
 export const TaskContext = createContext<TaskContextProps>(
@@ -23,6 +28,8 @@ export const TaskContext = createContext<TaskContextProps>(
 export default function useTasks(): TaskContextProps {
   const [tasks, setTasks] = useState<Task[]>([] as Task[]);
   const [newTaskName, setNewTaskName] = useState<string>("");
+  const [activeTask, setActiveTask] = useState<Task>({} as Task);
+  const [tempTask, setTempTask] = useState<Task>({} as Task);
 
   useEffect(() => {
     try {
@@ -61,15 +68,24 @@ export default function useTasks(): TaskContextProps {
     });
   };
 
-  const editTask = (e: any, task: Task) => {
+  const editTask = (task: Task, property: string, value: string) => {
+    setTempTask({
+      ...activeTask,
+      ...task,
+      [property]: value,
+    });
+  };
+
+  const saveTempTask = () => {
     setTasks((prevTasks: Task[]): Task[] => {
-      return prevTasks.map((prevTask: Task) => {
-        if (prevTask.id !== task.id) return prevTask;
-        return {
-          ...prevTask,
-          title: e.target.value,
-        };
+      const newTasks: Task[] = prevTasks.map((prevTask: Task) => {
+        if (prevTask.id !== tempTask.id) return prevTask;
+        return tempTask;
       });
+
+      localStorage.setItem("tasks", JSON.stringify(newTasks));
+
+      return newTasks;
     });
   };
 
@@ -172,5 +188,10 @@ export default function useTasks(): TaskContextProps {
     markSelectedComplete,
     changeDueDate,
     setTasks,
+    activeTask,
+    setActiveTask,
+    saveTempTask,
+    tempTask,
+    setTempTask,
   };
 }

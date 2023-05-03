@@ -8,20 +8,23 @@ import TaskDetailsControls from "./Controls";
 
 type TaskDetailsProps = {
   toggleDisplay: Function;
-  task: Task;
 };
 
 export default function TaskDetails(props: TaskDetailsProps) {
   const [activeMenu, setActiveMenu] = useState<string>("");
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [activeTask, setActiveTask] = useState<Task>(props.task);
   const {
     tasks,
     changeDueDate,
     deleteTask,
     setNewTaskName,
-    setTasks,
+    editTask,
     newTaskName,
+    activeTask,
+    setActiveTask,
+    setTempTask,
+    saveTempTask,
+    tempTask,
   } = useContext(TaskContext);
 
   useEffect(() => {
@@ -51,17 +54,16 @@ export default function TaskDetails(props: TaskDetailsProps) {
   };
 
   const handleSave = () => {
-    setTasks((prevTasks: Task[]) => {
-      const newTasks: Task[] = prevTasks.map((prevTask: Task) => {
-        if (prevTask.id !== activeTask.id) return prevTask;
-        return {
-          ...prevTask,
-          ...activeTask,
-        };
-      });
+    saveTempTask();
+    setActiveTask({} as Task);
+    setTempTask({} as Task);
+    props.toggleDisplay();
+  };
 
-      return newTasks;
-    });
+  const handleCancel = () => {
+    setActiveTask({} as Task);
+    setTempTask({} as Task);
+
     props.toggleDisplay();
   };
 
@@ -80,8 +82,8 @@ export default function TaskDetails(props: TaskDetailsProps) {
     <div className={styles.taskDetailsContainer}>
       <div className={styles.taskDetailHeader}>
         <input
-          value={newTaskName}
-          onChange={(e: any) => setNewTaskName(e.target.value)}
+          value={tempTask.title || activeTask.title}
+          onChange={(e: any) => editTask(tempTask, "title", e.target.value)}
           className={styles.taskName}
         />
       </div>
@@ -101,10 +103,7 @@ export default function TaskDetails(props: TaskDetailsProps) {
           Save
         </button>
 
-        <button
-          onClick={() => props.toggleDisplay()}
-          className={styles.backBtn}
-        >
+        <button onClick={() => handleCancel()} className={styles.backBtn}>
           Cancel
         </button>
       </div>

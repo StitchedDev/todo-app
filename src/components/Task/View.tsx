@@ -1,21 +1,14 @@
 import useTasks, { TaskContext } from "@/hooks/useTasks";
 import TaskList from "./List";
 import styles from "@/styles/TaskCard.module.css";
-import AddButton from "../AddButton";
 import { Task } from "@/types/Task";
-import { useRef, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import TaskDetails from "./Details";
 
 export default function TaskView() {
   const [showTaskDetails, setShowTaskDetails] = useState<boolean>(false);
-  const [activeTask, setActiveTask] = useState<Task>({} as Task);
-  const { tasks, markSelectedComplete } = useContext(TaskContext);
-
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const inputFocus = () => {
-    inputRef.current?.focus();
-  };
+  const { activeTask, setActiveTask, tasks, markSelectedComplete } =
+    useContext(TaskContext);
 
   const getRemainingTasks = () => {
     if (!tasks || tasks.length === 0) return "0";
@@ -32,44 +25,33 @@ export default function TaskView() {
     return false;
   };
 
-  const handleTaskDetails = (task: Task) => {
-    console.log(task);
-    if (!task) return;
-
+  const handleTaskDetailsMenu = () => {
     setShowTaskDetails((prevState: boolean) => !prevState);
-    setActiveTask(task);
   };
 
-  return (
-    <TaskContext.Provider value={useTasks()}>
-      {showTaskDetails ? (
-        <TaskDetails toggleDisplay={handleTaskDetails} task={activeTask} />
-      ) : (
-        <div>
-          <h1 className={styles.remainingTaskHeader}>
-            Remaining Tasks <strong>({getRemainingTasks()})</strong>
-          </h1>
+  return showTaskDetails ? (
+    <TaskDetails toggleDisplay={handleTaskDetailsMenu} />
+  ) : (
+    <div>
+      <h1 className={styles.remainingTaskHeader}>
+        Remaining Tasks <strong>({getRemainingTasks()})</strong>
+      </h1>
 
-          <TaskList
-            selectTask={setActiveTask}
-            inputRef={inputRef}
-            inputFocus={inputFocus}
-            handleTaskDetails={handleTaskDetails}
-          />
+      <TaskList
+        selectTask={setActiveTask}
+        toggleDisplay={handleTaskDetailsMenu}
+      />
 
-          <div className={styles.newTaskContainer}>
-            {shouldMarkComplete() ? (
-              <button
-                className={styles.markCompleteBtn}
-                onClick={() => markSelectedComplete()}
-              >
-                Mark Complete
-              </button>
-            ) : null}
-            {/* <AddButton style={{ cursor: "pointer" }} onClick={() => inputFocus()} /> */}
-          </div>
-        </div>
-      )}
-    </TaskContext.Provider>
+      <div className={styles.newTaskContainer}>
+        {shouldMarkComplete() ? (
+          <button
+            className={styles.markCompleteBtn}
+            onClick={() => markSelectedComplete()}
+          >
+            Mark Complete
+          </button>
+        ) : null}
+      </div>
+    </div>
   );
 }

@@ -1,29 +1,22 @@
 import styles from "@/styles/TaskCard.module.css";
 import { FaCheckCircle, FaPlusCircle } from "react-icons/fa";
-import { useState, Ref } from "react";
+import { useState, useContext } from "react";
+import { TaskContext } from "@/hooks/useTasks";
 
-type TaskNewCardProps = {
-  inputFocus: Function;
-  inputRef: Ref<HTMLInputElement>;
-  createTask: Function;
-};
-
-export default function TaskNewCard(props: TaskNewCardProps) {
+export default function TaskNewCard() {
   const [selected, setSelected] = useState<boolean>(false);
   const [taskName, setTaskName] = useState<string>("");
+  const { createTask } = useContext(TaskContext);
 
   const handleAddButton = () => {
-    props.createTask(taskName);
+    createTask(taskName);
     setTaskName("");
     setSelected(false);
   };
 
   return (
     <div className={`${styles.newTaskCardContainer}`}>
-      <div
-        className={`${styles.taskCard} ${styles.newTaskCard}`}
-        onClick={() => props.inputFocus()}
-      >
+      <div className={`${styles.taskCard} ${styles.newTaskCard}`}>
         <div>
           {selected ? (
             <FaCheckCircle
@@ -43,7 +36,6 @@ export default function TaskNewCard(props: TaskNewCardProps) {
             onChange={(e: any) => setTaskName(e.target.value)}
             placeholder="Add a task"
             onFocus={() => setSelected(true)}
-            ref={props.inputRef}
           />
         </div>
       </div>

@@ -6,14 +6,19 @@ import { TaskContext } from "@/hooks/useTasks";
 
 type TaskCardProps = {
   task: Task;
-  handleTaskDetails: Function;
+  toggleDisplay: Function;
 };
 
-export default function TaskCard({ task, handleTaskDetails }: TaskCardProps) {
+export default function TaskCard({ task, toggleDisplay }: TaskCardProps) {
   const [isHovering, setIsHovering] = useState<boolean>(false);
-  const { toggleEditMode } = useContext(TaskContext);
+  const { toggleEditMode, setActiveTask } = useContext(TaskContext);
   const handleHover = () => {
     setIsHovering((prevHovering: boolean) => !prevHovering);
+  };
+
+  const openTaskDetails = () => {
+    setActiveTask(task);
+    toggleDisplay();
   };
 
   return (
@@ -35,10 +40,7 @@ export default function TaskCard({ task, handleTaskDetails }: TaskCardProps) {
         )}
       </div>
 
-      <div
-        className={styles.taskHeader}
-        onClick={() => handleTaskDetails(task)}
-      >
+      <div className={styles.taskHeader} onClick={() => openTaskDetails()}>
         <span>{task.finished ? <s>{task.title}</s> : task.title}</span>
       </div>
     </div>
