@@ -15,8 +15,14 @@ export default function TaskDetails(props: TaskDetailsProps) {
   const [activeMenu, setActiveMenu] = useState<string>("");
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [activeTask, setActiveTask] = useState<Task>(props.task);
-  const { tasks, changeDueDate, deleteTask, setNewTaskName, newTaskName } =
-    useTasks();
+  const {
+    tasks,
+    changeDueDate,
+    deleteTask,
+    setNewTaskName,
+    setTasks,
+    newTaskName,
+  } = useTasks();
 
   useEffect(() => {
     tasks.forEach((currentTask: Task) => {
@@ -42,6 +48,21 @@ export default function TaskDetails(props: TaskDetailsProps) {
           />
         );
     }
+  };
+
+  const handleSave = () => {
+    setTasks((prevTasks: Task[]) => {
+      const newTasks: Task[] = prevTasks.map((prevTask: Task) => {
+        if (prevTask.id !== activeTask.id) return prevTask;
+        return {
+          ...prevTask,
+          ...activeTask,
+        };
+      });
+
+      return newTasks;
+    });
+    props.toggleDisplay();
   };
 
   const getDueDateText = () => {
@@ -72,9 +93,21 @@ export default function TaskDetails(props: TaskDetailsProps) {
         </div>
       </div>
 
-      <button onClick={() => props.toggleDisplay()} className={styles.backBtn}>
-        Go Back
-      </button>
+      <div className={styles.btnContainer}>
+        <button
+          onClick={() => handleSave()}
+          className={`${styles.saveBtn} btn`}
+        >
+          Save
+        </button>
+
+        <button
+          onClick={() => props.toggleDisplay()}
+          className={styles.backBtn}
+        >
+          Cancel
+        </button>
+      </div>
 
       {isMenuOpen ? displayActiveMenu() : null}
 

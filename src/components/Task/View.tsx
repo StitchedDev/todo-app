@@ -73,7 +73,7 @@ export default function TaskView() {
             Mark Complete
           </button>
         ) : null}
-        <AddButton style={{ cursor: "pointer" }} onClick={() => inputFocus()} />
+        {/* <AddButton style={{ cursor: "pointer" }} onClick={() => inputFocus()} /> */}
       </div>
     </div>
   );

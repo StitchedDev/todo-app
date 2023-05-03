@@ -96,6 +96,7 @@ export default function useTasks() {
         return {
           ...prevTask,
           finished: true,
+          selected: false,
         };
       });
 
@@ -151,5 +152,6 @@ export default function useTasks() {
     setNewTaskName,
     markSelectedComplete,
     changeDueDate,
+    setTasks,
   };
 }

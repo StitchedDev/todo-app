@@ -111,6 +111,7 @@
 .trashIcon {
   width: 32px;
   height: 32px;
+  fill: rgb(207, 29, 29);
 }
 
 .datePicker {
@@ -151,4 +152,19 @@
 .taskName {
   max-width: 100px;
   overflow-x: hidden;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.btnContainer button {
+  margin: 1rem 0.5rem;
+}
+
+.saveBtn {
+  background: rgb(46, 189, 27);
+  border: 1px solid rgb(27, 156, 27);
+  color: white;
 }

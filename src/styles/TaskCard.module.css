@@ -53,25 +53,10 @@
   cursor: pointer;
 }
 
-.newTaskContainer,
-.clearTaskContainer {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 1.6rem;
-}
-
 .newTaskContainer {
   display: flex;
   min-height: 80px;
   align-items: center;
-}
-
-.newTaskContainer input {
-  margin-right: 1rem;
-}
-
-.clearTaskContainer {
-  margin-top: 1rem;
 }
 
 .checkmark {
@@ -92,7 +77,7 @@
   border: none;
   outline: none;
   padding: 0.5rem 1rem;
-  margin: 0.5rem auto;
+  margin: 0 auto;
   border-radius: 0.4rem;
   color: #f5f5f5;
   font-family: "Lato", sans-erif;
