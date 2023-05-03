@@ -127,3 +127,7 @@
   opacity: 0;
   max-height: 0;
 }
+
+.newTaskInput::placeholder {
+  color: rgb(6, 97, 6);
+}

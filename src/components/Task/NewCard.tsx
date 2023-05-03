@@ -14,8 +14,13 @@ export default function TaskNewCard() {
     setSelected(false);
   };
 
+  const handleEnterKey = (event: any) => {
+    if (event.key !== "Enter") return;
+    handleAddButton();
+  };
+
   return (
-    <div className={`${styles.newTaskCardContainer}`}>
+    <div className={`${styles.newTaskCardContainer}`} onKeyUp={handleEnterKey}>
       <div className={`${styles.taskCard} ${styles.newTaskCard}`}>
         <div>
           {selected ? (
@@ -36,6 +41,7 @@ export default function TaskNewCard() {
             onChange={(e: any) => setTaskName(e.target.value)}
             placeholder="Add a task"
             onFocus={() => setSelected(true)}
+            className={`${styles.newTaskInput}`}
           />
         </div>
       </div>
