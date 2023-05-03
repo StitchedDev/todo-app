@@ -3,9 +3,13 @@ import TaskList from "./List";
 import styles from "@/styles/TaskCard.module.css";
 import AddButton from "../AddButton";
 import { Task } from "@/types/Task";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import TaskDetails from "./Details";
 
 export default function TaskView() {
+  const [showTaskDetails, setShowTaskDetails] = useState<boolean>(false);
+  const [activeTask, setActiveTask] = useState<Task>({} as Task);
+
   const {
     tasks,
     editTask,
@@ -34,13 +38,21 @@ export default function TaskView() {
     return false;
   };
 
-  return (
+  const handleTaskDetails = (task: Task) => {
+    setShowTaskDetails((prevState: boolean) => !prevState);
+    setActiveTask(task);
+  };
+
+  return showTaskDetails ? (
+    <TaskDetails toggleDisplay={handleTaskDetails} task={activeTask} />
+  ) : (
     <div>
       <h1 className={styles.remainingTaskHeader}>
         Remaining Tasks <strong>({getRemainingTasks()})</strong>
       </h1>
 
       <TaskList
+        selectTask={setActiveTask}
         createTask={createTask}
         inputRef={inputRef}
         inputFocus={inputFocus}
@@ -49,6 +61,7 @@ export default function TaskView() {
         toggleEditMode={toggleEditMode}
         deleteTask={deleteTask}
         markTaskComplete={markTaskComplete}
+        handleTaskDetails={handleTaskDetails}
       />
 
       <div className={styles.newTaskContainer}>

@@ -9,12 +9,14 @@ type TaskCardProps = {
   toggleEditMode: Function;
   deleteTask: Function;
   markTaskComplete: Function;
+  handleTaskDetails: Function;
 };
 
 export default function TaskCard({
   task,
   editTask,
   toggleEditMode,
+  handleTaskDetails,
 }: TaskCardProps) {
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
@@ -41,7 +43,10 @@ export default function TaskCard({
         )}
       </div>
 
-      <div className={styles.taskHeader} onClick={() => console.log("Clicked")}>
+      <div
+        className={styles.taskHeader}
+        onClick={() => handleTaskDetails(task)}
+      >
         <span>{task.finished ? <s>{task.title}</s> : task.title}</span>
       </div>
     </div>

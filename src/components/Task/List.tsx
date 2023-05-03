@@ -12,7 +12,10 @@ type TaskListProps = {
   markTaskComplete: Function;
   inputRef: Ref<HTMLInputElement>;
   inputFocus: Function;
+  handleTaskDetails: Function;
+  selectTask: Function;
 };
+
 export default function TaskList(props: TaskListProps) {
   return (
     <>

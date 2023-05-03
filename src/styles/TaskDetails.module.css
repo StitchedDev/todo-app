@@ -1,0 +1,92 @@
+.taskDetailsContainer {
+  font-family: "Lato", sans-serif;
+  text-align: center;
+  user-select: none;
+}
+
+.taskDetailsContainer h1 {
+  font-weight: 600;
+  font-size: 20px;
+  margin: 2rem 0;
+}
+
+.taskDetailHeader {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.taskDetailHeader input {
+  border: none;
+  background: none;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.taskDetailHeader input:focus {
+  outline: none;
+}
+
+.detailCard {
+  min-height: 50px;
+  background: white;
+  margin: 0.5rem 1rem;
+  border: 1px solid #e1dfdd;
+  box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1),
+    0px 1.6px 3.6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.detailLogo {
+  position: absolute;
+  left: 5px;
+}
+
+.detailCard div {
+  width: 100%;
+  text-align: center;
+}
+
+.detailCard:hover {
+  background: #f5f5f5;
+}
+
+.detailMenu {
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  background: #f5f5f5;
+  border: 1px solid #e1dfdd;
+  box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.1),
+    0px 1.6px 3.6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  min-height: 150px;
+}
+
+.detailHeader {
+  margin: 0.8rem !important;
+  font-size: 18px;
+}
+
+.detailMenu hr {
+  width: 80%;
+  opacity: 0.5;
+}
+
+.detailOptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.detailOption {
+  padding: 1rem;
+}
+
+.detailOption:hover {
+  background: #e1dfdd;
+}

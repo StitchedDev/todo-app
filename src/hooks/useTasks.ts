@@ -32,7 +32,7 @@ export default function useTasks() {
           title: taskName,
           finished: false,
           editing: false,
-          date: "05/02/2023",
+          date: new Date().toDateString(),
           selected: false,
         },
       ];
@@ -121,6 +121,24 @@ export default function useTasks() {
     setTasks([]);
   };
 
+  const changeDueDate = (task: Task, dueDate: string) => {
+    if (!dueDate) return;
+
+    setTasks((prevTasks: Task[]) => {
+      const newTasks: Task[] = prevTasks.map((prevTask: Task) => {
+        if (prevTask.id !== task.id) return prevTask;
+
+        return {
+          ...prevTask,
+          date: dueDate,
+        };
+      });
+
+      localStorage.setItem("tasks", JSON.stringify(newTasks));
+      return newTasks;
+    });
+  };
+
   return {
     tasks,
     createTask,
@@ -132,5 +150,6 @@ export default function useTasks() {
     newTaskName,
     setNewTaskName,
     markSelectedComplete,
+    changeDueDate,
   };
 }
