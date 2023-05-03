@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import DueDate from "./DueDate";
 import { FaCalendarAlt } from "react-icons/fa";
 import useTasks from "@/hooks/useTasks";
+import TaskDetailsControls from "./Controls";
 
 type TaskDetailsProps = {
   toggleDisplay: Function;
@@ -14,11 +15,14 @@ export default function TaskDetails(props: TaskDetailsProps) {
   const [activeMenu, setActiveMenu] = useState<string>("");
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [activeTask, setActiveTask] = useState<Task>(props.task);
-  const { tasks, changeDueDate } = useTasks();
+  const { tasks, changeDueDate, deleteTask, setNewTaskName, newTaskName } =
+    useTasks();
 
   useEffect(() => {
     tasks.forEach((currentTask: Task) => {
-      if (currentTask.id === activeTask.id) setActiveTask(currentTask);
+      if (currentTask.id !== activeTask.id) return;
+      setActiveTask(currentTask);
+      setNewTaskName(currentTask.title);
     });
   }, [tasks]);
 
@@ -31,7 +35,11 @@ export default function TaskDetails(props: TaskDetailsProps) {
     switch (activeMenu) {
       case "dueDate":
         return (
-          <DueDate changeDueDate={changeDueDate} activeTask={activeTask} />
+          <DueDate
+            setIsMenuOpen={setIsMenuOpen}
+            changeDueDate={changeDueDate}
+            activeTask={activeTask}
+          />
         );
     }
   };
@@ -43,13 +51,19 @@ export default function TaskDetails(props: TaskDetailsProps) {
 
     const tomorrow = new Date(today.setDate(today.getDate() + 1));
     if (activeTask.date == tomorrow.toDateString()) return "Tomorrow";
+
+    return activeTask.date;
   };
 
   return (
     <div className={styles.taskDetailsContainer}>
-      <h1 className={styles.taskDetailHeader}>
-        Task Details for <input value={activeTask.title} />
-      </h1>
+      <div className={styles.taskDetailHeader}>
+        <input
+          value={newTaskName}
+          onChange={(e: any) => setNewTaskName(e.target.value)}
+          className={styles.taskName}
+        />
+      </div>
 
       <div>
         <div className={`${styles.detailCard}`} onClick={() => addDueDate()}>
@@ -58,9 +72,13 @@ export default function TaskDetails(props: TaskDetailsProps) {
         </div>
       </div>
 
-      <button onClick={() => props.toggleDisplay()}>Go Back</button>
+      <button onClick={() => props.toggleDisplay()} className={styles.backBtn}>
+        Go Back
+      </button>
 
       {isMenuOpen ? displayActiveMenu() : null}
+
+      <TaskDetailsControls task={activeTask} deleteTask={deleteTask} />
     </div>
   );
 }
