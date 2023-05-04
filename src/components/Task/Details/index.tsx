@@ -48,7 +48,7 @@ export default function TaskDetails(props: TaskDetailsProps) {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     saveTempTask();
     setActiveTask({} as Task);
     setTempTask({} as Task);
@@ -71,7 +71,6 @@ export default function TaskDetails(props: TaskDetailsProps) {
     const tomorrow = new Date(today.setDate(today.getDate() + 1));
     if (taskDate.toDateString() == tomorrow.toDateString()) return "Tomorrow";
 
-    console.log(tempTask);
     return taskDate.toDateString();
   };
 
@@ -79,7 +78,7 @@ export default function TaskDetails(props: TaskDetailsProps) {
     <div className={styles.taskDetailsContainer}>
       <div className={styles.taskDetailHeader}>
         <input
-          value={tempTask.title || activeTask.title}
+          value={tempTask.title}
           onChange={(e: any) => editTask(tempTask, "title", e.target.value)}
           className={styles.taskName}
         />

@@ -43,7 +43,6 @@ export default function useTasks(): TaskContextProps {
   }, []);
 
   const createTask = (taskName: string) => {
-    console.log(taskName);
     if (!taskName) return;
 
     setNewTaskName("");
@@ -71,7 +70,6 @@ export default function useTasks(): TaskContextProps {
 
   const editTask = (task: Task, property: string, value: Date | string) => {
     setTempTask({
-      ...activeTask,
       ...task,
       [property]: value,
     });
