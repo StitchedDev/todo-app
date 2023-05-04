@@ -31,6 +31,7 @@ export default function TaskDetails(props: TaskDetailsProps) {
     tasks.forEach((currentTask: Task) => {
       if (currentTask.id !== activeTask.id) return;
       setActiveTask(currentTask);
+      setTempTask(currentTask);
       setNewTaskName(currentTask.title);
     });
   }, [tasks]);
@@ -43,13 +44,7 @@ export default function TaskDetails(props: TaskDetailsProps) {
   const displayActiveMenu = () => {
     switch (activeMenu) {
       case "dueDate":
-        return (
-          <DueDate
-            setIsMenuOpen={setIsMenuOpen}
-            changeDueDate={changeDueDate}
-            activeTask={activeTask}
-          />
-        );
+        return <DueDate setIsMenuOpen={setIsMenuOpen} />;
     }
   };
 
@@ -69,13 +64,15 @@ export default function TaskDetails(props: TaskDetailsProps) {
 
   const getDueDateText = () => {
     const today = new Date();
-    if (!activeTask.date) return "Add due date";
-    if (activeTask.date == today.toDateString()) return "Today";
+    const taskDate = new Date(tempTask.date || activeTask.date);
+    if (!taskDate) return "Add due date";
+    if (taskDate.toDateString() == today.toDateString()) return "Today";
 
     const tomorrow = new Date(today.setDate(today.getDate() + 1));
-    if (activeTask.date == tomorrow.toDateString()) return "Tomorrow";
+    if (taskDate.toDateString() == tomorrow.toDateString()) return "Tomorrow";
 
-    return activeTask.date;
+    console.log(tempTask);
+    return taskDate.toDateString();
   };
 
   return (

@@ -4,5 +4,5 @@ export interface Task {
   finished: boolean;
   editing: boolean;
   selected: boolean;
-  date: string;
+  date: Date;
 }

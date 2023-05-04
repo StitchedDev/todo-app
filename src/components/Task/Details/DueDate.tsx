@@ -1,39 +1,27 @@
-import useTasks from "@/hooks/useTasks";
+import useTasks, { TaskContext } from "@/hooks/useTasks";
 import styles from "@/styles/TaskDetails.module.css";
 import { Task } from "@/types/Task";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 
 type DueDateProps = {
-  changeDueDate: Function;
-  activeTask: Task;
   setIsMenuOpen: Function;
 };
+
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate() + 1);
 
 export default function DueDate(props: DueDateProps) {
   const [openDateSelector, setOpenDateSelector] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Date>(new Date());
+  const { changeDueDate, tempTask } = useContext(TaskContext);
 
-  const handleDateClick = (date: string) => {
-    let currentDate = new Date();
-    switch (date) {
-      case "today":
-        props.changeDueDate(props.activeTask, currentDate.toDateString());
-        props.setIsMenuOpen(false);
-        break;
-      case "tomorrow":
-        currentDate.setDate(currentDate.getDate() + 1);
-        props.changeDueDate(props.activeTask, currentDate.toDateString());
-        props.setIsMenuOpen(false);
-        break;
-      case "custom":
-        setOpenDateSelector(!openDateSelector);
-        break;
-      default:
-        const selectedDate = new Date(date);
-        props.changeDueDate(props.activeTask, selectedDate.toDateString());
-        props.setIsMenuOpen(false);
-    }
+  const handleDateClick = (date: Date | string) => {
+    if (date == "custom") setOpenDateSelector(!openDateSelector);
+    if (typeof date == "string") return;
+    changeDueDate(tempTask, date);
+    props.setIsMenuOpen(false);
   };
 
   return (
@@ -50,7 +38,7 @@ export default function DueDate(props: DueDateProps) {
 
           <button
             className={styles.datePickerConfirmBtn}
-            onClick={() => handleDateClick(startDate.toDateString())}
+            onClick={() => handleDateClick(startDate)}
           >
             Confirm
           </button>
@@ -59,13 +47,13 @@ export default function DueDate(props: DueDateProps) {
         <div className={styles.detailOptions}>
           <div
             className={styles.detailOption}
-            onClick={() => handleDateClick("today")}
+            onClick={() => handleDateClick(new Date())}
           >
             Today
           </div>
           <div
             className={styles.detailOption}
-            onClick={() => handleDateClick("tomorrow")}
+            onClick={() => handleDateClick(tomorrow)}
           >
             Tomorrow
           </div>

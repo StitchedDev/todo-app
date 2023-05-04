@@ -43,6 +43,7 @@ export default function useTasks(): TaskContextProps {
   }, []);
 
   const createTask = (taskName: string) => {
+    console.log(taskName);
     if (!taskName) return;
 
     setNewTaskName("");
@@ -58,7 +59,7 @@ export default function useTasks(): TaskContextProps {
           title: taskName,
           finished: false,
           editing: false,
-          date: new Date().toDateString(),
+          date: new Date(),
           selected: false,
         },
       ];
@@ -68,7 +69,7 @@ export default function useTasks(): TaskContextProps {
     });
   };
 
-  const editTask = (task: Task, property: string, value: string) => {
+  const editTask = (task: Task, property: string, value: Date | string) => {
     setTempTask({
       ...activeTask,
       ...task,
@@ -157,21 +158,14 @@ export default function useTasks(): TaskContextProps {
     setTasks([]);
   };
 
-  const changeDueDate = (task: Task, dueDate: string) => {
+  const changeDueDate = (task: Task, dueDate: Date) => {
     if (!dueDate) return;
 
-    setTasks((prevTasks: Task[]) => {
-      const newTasks: Task[] = prevTasks.map((prevTask: Task) => {
-        if (prevTask.id !== task.id) return prevTask;
-
-        return {
-          ...prevTask,
-          date: dueDate,
-        };
-      });
-
-      localStorage.setItem("tasks", JSON.stringify(newTasks));
-      return newTasks;
+    setTempTask((prevTempTask: Task) => {
+      return {
+        ...prevTempTask,
+        date: dueDate,
+      };
     });
   };
 

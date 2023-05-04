@@ -41,6 +41,7 @@ export default function TaskNewCard() {
             onChange={(e: any) => setTaskName(e.target.value)}
             placeholder="Add a task"
             onFocus={() => setSelected(true)}
+            onBlur={() => setTimeout(() => setSelected(false), 500)}
             className={`${styles.newTaskInput}`}
           />
         </div>
